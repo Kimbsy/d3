@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Test</title>
+    <link rel="stylesheet" type="text/css" href="first.css">
+    <script type="text/javascript" src="d3/d3.v3.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      var w = 1000;
+      var h = 100;
+
+      var lineData = [{ "x": 0,   "y": Math.random()*60},  { "x": 20,  "y": Math.random()*60},
+        { "x": 40,  "y": Math.random()*60}, { "x": 60,  "y": Math.random()*60},
+        { "x": 80,  "y": Math.random()*60},  { "x": 100, "y": Math.random()*60},
+        { "x": 120,   "y": Math.random()*60},  { "x": 140,  "y": Math.random()*60},
+        { "x": 160,  "y": Math.random()*60}, { "x": 180,  "y": Math.random()*60},
+        { "x": 200,  "y": Math.random()*60},  { "x": 220, "y": Math.random()*60},
+        { "x": 240,   "y": Math.random()*60},  { "x": 260,  "y": Math.random()*60},
+        { "x": 280,  "y": Math.random()*60}, { "x": 300,  "y": Math.random()*60},
+        { "x": 320,  "y": Math.random()*60},  { "x": 340, "y": Math.random()*60}];
+
+      var lineFunction = d3.svg.line()
+        .x(function(d) {return d.x;})
+        .y(function(d) {return d.y;})
+        .interpolate('linear');
+
+      var svg = d3.select('body')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h);
+
+      var linegraph = svg.append('path')
+        .attr('d', lineFunction(lineData))
+        .attr('stroke', 'blue')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none');
+
+      svg.on('click', function() {
+
+        lineData = randomData();
+
+        linegraph.transition()
+          .attr('d', lineFunction(lineData))
+          .attr('stroke', 'red')
+          .duration(700)
+          .each('end', function() {
+            d3.select(this)
+              .transition()
+              .attr('stroke', 'blue')
+              .duration(1000)
+              .delay(0);
+          });
+      });
+
+      function randomData() {
+
+        var data = [ { "x": 0,   "y": Math.random()*60},  { "x": 20,  "y": Math.random()*60},
+        { "x": 40,  "y": Math.random()*60}, { "x": 60,  "y": Math.random()*60},
+        { "x": 80,  "y": Math.random()*60},  { "x": 100, "y": Math.random()*60},
+        { "x": 120,   "y": Math.random()*60},  { "x": 140,  "y": Math.random()*60},
+        { "x": 160,  "y": Math.random()*60}, { "x": 180,  "y": Math.random()*60},
+        { "x": 200,  "y": Math.random()*60},  { "x": 220, "y": Math.random()*60},
+        { "x": 240,   "y": Math.random()*60},  { "x": 260,  "y": Math.random()*60},
+        { "x": 280,  "y": Math.random()*60}, { "x": 300,  "y": Math.random()*60},
+        { "x": 320,  "y": Math.random()*60},  { "x": 340, "y": Math.random()*60}];
+
+        return data;
+      }// brooklyn 99
+
+    </script>
+  </body>
+  <h2 style="margin-top:-28px;">Bloomberg Quarterly Profits</h2>
+</html>

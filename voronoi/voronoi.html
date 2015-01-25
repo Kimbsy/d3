@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Test</title>
+    <link rel="stylesheet" type="text/css" href="voronoi.css">
+    <script type="text/javascript" src="d3/d3.v3.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      //set width, height and number of vertices
+      var w = window.innerWidth - 20;
+      var h = window.innerHeight - 20;
+      var points = 60;
+
+      // define vertices (vertices[0] is for mouse position)
+      var vertices = randomData(points);
+
+      // define voronoi and set clipping (otherwise polygons get huuuuge)
+      var voronoi = d3.geom.voronoi()
+        .clipExtent([[0, 0], [w, h]]);
+
+      // cretae svg, add mousemove function to add vertices[0]
+      var svg = d3.select('body')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+        .on('mousemove', function() {
+          vertices[0] = d3.mouse(this); redraw();
+        })
+        .on('click', function() {
+          // randomize data
+          vertices = randomData(points);
+
+          // reposition circles
+          circles.transition()
+            .style('fill', '#ffffff')
+            .attr('r', 5)
+            .attr('transform', function(d, i) {
+              return 'translate(' + vertices.slice(1)[i][0] + ', ' + vertices.slice(1)[i][1] + ')';
+            })
+            .duration(500)
+            .each('end', function() {
+              d3.select(this)
+                .transition()
+                .style('fill', '#000000')
+                .attr('r', 2);
+            });
+
+          //reset mouse certex
+          vertices[0] = d3.mouse(this);
+
+          redraw();
+        })
+
+      //create text
+      svg.append('text')
+        .text('Beth is Awesome')
+        .style('font-size', 200)
+        .style('text-anchor', 'middle')
+        .attr('dy', '0.35em')
+        .attr('transform', 'translate(' + (w / 2) + ', ' + (h / 2) + ')');
+
+      // define path
+      var path = svg.append('g').selectAll('path');
+
+      // create cirles at vertices (except vertices[0])
+      var circles = svg.selectAll('circles')
+        .data(vertices.slice(1))
+        .enter()
+        .append('circle')
+        .attr('transform', function(d) {
+          return 'translate(' + d + ')';
+        })
+        .attr('r', 2);
+
+      redraw();
+
+      function redraw() {
+        path = path
+          .data(voronoi(vertices), polygon);
+
+        path.exit().remove();
+
+        path.enter().append('path')
+          .attr('class', function(d, i) {
+            return 'q' + (i % 9) + '-9';
+          })
+          .attr('d', polygon);
+
+        path.order();
+      }
+
+      function polygon(d) {
+        return 'M' + d.join('L') + 'Z';
+      }
+
+      function randomData(points) {
+        data = [];
+
+        for (var i=0; i<points; i++) {
+          data[i] = [];
+          data[i][0] = Math.round(Math.random() * w);
+          data[i][1] = Math.round(Math.random() * h);
+        }
+
+        return data;
+      }
+
+    </script>
+  </body>
+</html>

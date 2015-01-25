@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Test</title>
+    <link rel="stylesheet" type="text/css" href="first.css">
+    <script type="text/javascript" src="d3/d3.v3.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var dataset = [];
+
+      for (var i=0; i<25; i++) {
+        var num = Math.random() * 30;
+        dataset = dataset.concat(num);
+      }
+
+      d3.select('body').selectAll('div')
+        .data(dataset)
+        .enter()
+        .append('div')
+        .attr('class', 'bar')
+        .style('height', function(d) {
+          var barHeight = d * 5;
+          return barHeight + 'px';
+        });
+
+    </script>
+  </body>
+</html>

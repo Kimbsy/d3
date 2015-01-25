@@ -1,0 +1,10 @@
+svg .axis {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+svg .axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}

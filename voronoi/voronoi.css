@@ -1,0 +1,22 @@
+svg path {
+	stroke: #ffffff;
+}
+
+svg path:first-child {
+	fill: rgba(0, 0, 0, 0);
+}
+
+svg circle {
+	fill: #000000;
+	pointer-events: none;
+}
+
+svg .q0-9 { fill: #008B8B; }
+svg .q1-9 { fill: #66CCCC; }
+svg .q2-9 { fill: #ADEAEA; }
+svg .q3-9 { fill: #5F9EA0; }
+svg .q4-9 { fill: #0EBFE9; }
+svg .q5-9 { fill: #00688B; }
+svg .q6-9 { fill: #00BFFF; }
+svg .q7-9 { fill: #35586C; }
+svg .q8-9 { fill: #87CEFA; }
